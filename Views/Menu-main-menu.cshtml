@@ -1,0 +1,92 @@
+﻿@{
+    // Model is Model.Menu from the layout (Layout.Menu)
+    var tag = Tag(Model, "ul");
+    tag.AddCssClass("nav");
+    tag.AddCssClass("navbar-nav");
+
+    var items = (IList<dynamic>)Enumerable.Cast<dynamic>(Model.Items);
+
+    if (items.Any()) {
+        items[0].Classes.Add("first");
+        items[items.Count - 1].Classes.Add("last");
+    }
+}
+
+
+<nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md" role="navigation">
+    <div class="container">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#mainMenuNavbarContainer" aria-controls="mainMenuNavbarContainer" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="@Href("~/")">@WorkContext.CurrentSite.SiteName</a>
+
+        <div class="collapse navbar-collapse" id="mainMenuNavbarContainer">
+            @tag.StartElement
+            @* see MenuItem shape template *@
+            @DisplayChildren(Model)
+            @tag.EndElement
+
+            @using (Capture(Layout.NavBar, "5")) {
+            
+                <ul class="navbar-nav">
+                    @if (WorkContext.CurrentUser != null)
+                    {
+                        <li class="nav-item dropdown">
+                            <a href="#" id="user-main-menu" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@Html.ItemDisplayText(WorkContext.CurrentUser) <b class="caret"></b></a>
+                            <div class="dropdown-menu" aria-labelledby="user-main-menu">
+                                @if (AuthorizedFor(Orchard.Security.StandardPermissions.AccessAdminPanel))
+                                {
+                                    @Html.ActionLink(T("Dashboard").ToString(), "Index", new { Area = "Dashboard", Controller = "Admin" }, new { @class = "dropdown-item" })
+                                }
+
+                                @Html.ActionLink(T("Change Password").Text, "ChangePassword", new { Controller = "Account", Area = "Orchard.Users" }, new { @class = "dropdown-item" })
+
+
+
+                                @Html.ActionLink(T("Sign Out").ToString(), "LogOff", new { Controller = "Account", Area = "Orchard.Users", ReturnUrl = Context.Request.RawUrl }, new { @class = "dropdown-item", rel = "nofollow" })
+
+
+                            </div>
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
+                            @Html.ActionLink(T("Sign In").ToString(), "LogOn", new { Controller = "Account", Area = "Orchard.Users", ReturnUrl = (Request.QueryString["ReturnUrl"] ?? Request.RawUrl) }, new { @class = "nav-link", rel = "nofollow" })
+                        </li>
+                    }
+                </ul>
+            }    
+
+            @if (Layout.NavBar != null) {
+                <div class="ml-auto">
+                    @Display(Layout.NavBar)
+                </div>
+            }
+
+            @*<ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown02">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>*@
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,7 @@
+Name: TheBootstrap4Machine
+Author: Peter Davis
+Website: httpa://petedavis.io
+Description: Description for the theme
+Version: 1.0
+# todo: provide tags
+# Tags: Classic, Serif
