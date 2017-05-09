@@ -8,7 +8,7 @@ namespace TheBootstrap4Machine.Handlers {
         public BootstrapSettingsPartHandler() {
             T = NullLocalizer.Instance;
             Filters.Add(new ActivatingFilter<BootstrapSettingsPart>("Site"));
-            Filters.Add(new TemplateFilterForPart<BootstrapSettingsPart>("BootstrapSettings", "Parts/BootstrapSettings", "Theme Options"));
+            Filters.Add(new TemplateFilterForPart<BootstrapSettingsPart>("BootstrapSettings", "Parts/BootstrapSettings", "ThemeOptions"));
         }
 
         public Localizer T { get; set; }
