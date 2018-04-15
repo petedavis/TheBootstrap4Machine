@@ -4,7 +4,6 @@
 @using Orchard.Layouts.Settings
 @{
     var element = (TextField)Model.Element;
-    var commonSettings = element.State.GetModel<CommonElementSettings>();
     var tagBuilder = (OrchardTagBuilder)TagBuilderExtensions.AddCommonElementAttributes(new OrchardTagBuilder("input"), Model);
 
     tagBuilder.AddCssClass("text");
@@ -20,7 +19,7 @@
 }
 
 @if (element.ShowLabel) {
-    <label for="@commonSettings.Id">@element.Label</label>
+    <label for="@element.HtmlId">@element.Label</label>
 }
 @Html.Raw(tagBuilder.ToString(TagRenderMode.SelfClosing))
 @if (element.ValidationSettings.ShowValidationMessage == true) {
